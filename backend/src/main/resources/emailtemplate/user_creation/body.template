@@ -1,0 +1,10 @@
+<html>
+<p>Dear ${name},</p>
+<p>Your Login has been successfully created for the Maturity Assessment Tool.</p>
+<p>To login, please use the link: <a href='${URL}'>https://xyz@assessmenttool.com</a></p>
+<p>Your Mail id is ${Email} and password is ${Password}</p>
+<p>We hope you will be satisfied.</p>
+<p>If you have any concern/queries, feel free to right back to us at: <a href='${supportUrl}'>xebiaassessmenttool@gmail.com </a> </p>
+<p> Best Regards,</p>
+<p>Your Xebia Team</p>
+</html>

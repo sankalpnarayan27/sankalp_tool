@@ -1,0 +1,61 @@
+{
+    "id": 205,
+    "testName": "Testing Api",
+    "frameworkSet": [
+        {
+            "id": 1,
+            "framework": "Kanban"
+        },
+        {
+            "id": 2,
+            "framework": "Scrum"
+        }
+    ],
+    "draftQuestionsList": [
+        {
+            "id": 206,
+            "questions": "What is your team size",
+            "draftFiltersSet": [
+                {
+                    "id": 207,
+                    "draftFilterName": " kpa text",
+                    "filterType": "KPA"
+                },
+                {
+                    "id": 208,
+                    "draftFilterName": " Maturity Text",
+                    "filterType": "MATURITY_LEVEL"
+                },
+                {
+                    "id": 209,
+                    "draftFilterName": "Principal text",
+                    "filterType": "PRINCIPLE"
+                }
+            ]
+        },
+        {
+            "id": 210,
+            "questions": " What effectively you follow agile",
+            "draftFiltersSet": [
+                {
+                    "id": 212,
+                    "draftFilterName": "KPA text1",
+                    "filterType": "KPA"
+                },
+                {
+                    "id": 213,
+                    "draftFilterName": "Maturity Text",
+                    "filterType": "MATURITY_LEVEL"
+                },
+                {
+                    "id": 211,
+                    "draftFilterName": "Principal1 text",
+                    "filterType": "PRINCIPLE"
+                }
+            ]
+        }
+    ],
+    "createdBy": "Vikas",
+    "createdAt": "2019-09-30T12:12:56.662",
+    "status": "draft"
+ }

@@ -1,0 +1,144 @@
+import com.github.spotbugs.SpotBugsTask
+
+buildscript {
+    repositories {
+        maven { url maven_central }
+        maven { url gradle_plugins_repo }
+        maven { url spring_repo_release }
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}")
+        classpath("gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:${spot_bugs_version}")
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.8.RELEASE"
+        classpath 'gradle.plugin.com.boxfuse.client:flyway-release:4.0.3'
+        classpath group: 'org.postgresql', name: 'postgresql', version: '9.4.1208.jre7'
+    }
+}
+
+group = 'com.xebia.assessment'
+
+repositories {
+    maven { url spring_repo_milestone }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'checkstyle'
+apply plugin: 'com.github.spotbugs'
+apply plugin: 'pmd'
+apply plugin: 'jacoco'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'org.flywaydb.flyway'
+apply plugin: "io.spring.dependency-management"
+
+sourceCompatibility = java_version
+targetCompatibility = java_version
+
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${spring_cloud_version}"
+    }
+}
+
+test {
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/test/jacocoTest.exec")
+        classDumpDir = file("$buildDir/jacoco/test/classpathdumps")
+    }
+}
+
+checkstyle {
+    ignoreFailures = false
+    configFile = rootProject.file('codequality/checkstyle.xml')
+    sourceSets = [sourceSets.main]
+}
+
+spotbugs {
+    excludeFilter = rootProject.file('codequality/findbugs-exclude.xml')
+    ignoreFailures = false
+    sourceSets = [sourceSets.main]
+}
+
+pmd {
+    ignoreFailures = false
+    pmdTest.enabled = false
+    ruleSetFiles = getRootProject().files('codequality/pmd-ruleset.xml')
+
+}
+
+tasks.withType(Pmd) {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+tasks.withType(SpotBugsTask) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+tasks.withType(Checkstyle) {
+    exclude '**/model/**'
+    exclude '**/mappers/**'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        executionData = files("$buildDir/jacoco/test/jacocoTest.exec", "$buildDir/jacoco/itest/jacocoTest.exec")
+        executionData = files(executionData.findAll {
+            it.exists()
+        })
+        html.destination file("${buildDir}/reports/coverage")
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    implementation project(':frontend')
+//	compile files('../frontend/build/libs/frontend.jar')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.postgresql:postgresql:42.2.6'
+    implementation 'javax.mail:mail:1.4.7'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'mysql:mysql-connector-java'
+    implementation 'org.freemarker:freemarker'
+    implementation 'org.springframework:spring-context-support'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+    implementation 'io.springfox:springfox-swagger2:2.9.2'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    //required for unit test cases.
+    implementation("com.h2database:h2")
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+}
+
+flyway {
+  user = 'postgres'
+  url = 'jdbc:postgresql://localhost:5432/postgres'
+  driver = 'org.postgresql.Driver'
+  password = '12345'
+  locations = ['classpath:/scripts']
+  baselineOnMigrate = true
+}
+
+//project(':backend') {
+//    build.dependsOn project(":frontend").tasks.build
+//}

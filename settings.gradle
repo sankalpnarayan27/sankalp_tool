@@ -1,0 +1,4 @@
+rootProject.name = 'assessment-tool'
+
+include 'backend'
+include 'frontend'

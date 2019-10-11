@@ -1,0 +1,94 @@
+spring:
+ profiles:
+   active: prod
+---
+spring:
+ application:
+   name: assessment-tool
+ profiles: local
+ datasource:
+   url: jdbc:postgresql://localhost:5432/postgres
+   username: postgres
+   password: 12345
+ jpa:
+   properties:
+     hibernate:
+       jdbc:
+         lob:
+           non_contextual_creation: true
+       dialect: org.hibernate.dialect.PostgreSQLDialect
+   generate-ddl: true
+   hibernate:
+     ddl-auto: update
+server:
+ port: 8080
+email:
+     loginUrl: http://localhost:3000
+     supportUrl: https://xebiaassessmenttool@gmail.com
+     emailFrom: xebiaassessmenttool@gmail.com
+     mailHost: smtp.gmail.com
+     mailPort: 587
+     mailPassword: Xebia@123
+     mailSmtpAuth: true
+     mailSmtpStartTlsEnable: true
+---
+spring:
+ application:
+   name: assessment-tool
+ profiles: prod
+ datasource:
+    url: jdbc:postgresql://ec2-23-21-70-66.compute-1.amazonaws.com:5432/df73nrd09ib6lu
+    username: smgsneyjbqcvnr
+    password: 65279d184b7028b5af68ea0a96a387a7fbd2a5a2e8b7b946579ca262ee74d31a
+ jpa:
+   properties:
+     hibernate:
+       jdbc:
+         lob:
+           non_contextual_creation: true
+       dialect: org.hibernate.dialect.PostgreSQLDialect
+   generate-ddl: true
+   hibernate:
+     ddl-auto: update
+server:
+ port: 8080
+email:
+     loginUrl: http://localhost:3000
+     supportUrl: https://xebiaassessmenttool@gmail.com
+     emailFrom: xebiaassessmenttool@gmail.com
+     mailHost: smtp.gmail.com
+     mailPort: 587
+     mailPassword: Xebia@123
+     mailSmtpAuth: true
+     mailSmtpStartTlsEnable: true
+---
+spring:
+ application:
+   name: assessment-tool
+ profiles: test
+ datasource:
+   type: com.zaxxer.hikari.HikariDataSource
+   url: jdbc:h2:mem:testdb
+   driver-class-name: org.h2.Driver
+   username: sa
+   password:
+   hikari:
+     minimum-idle: 5
+     maximum-pool-size: 30
+     idle-timeout: 300000
+     connection-test-query: SELECT 1
+ jpa:
+   generate-ddl: true
+   hibernate:
+     ddl-auto: update
+server:
+ port: 8080
+email:
+   loginUrl: https://xyz@assessmenttool.com
+   supportUrl: https://xebiaassessmenttool@gmail.com
+   emailFrom: xebiaassessmenttool@gmail.com
+   mailHost: smtp.gmail.com
+   mailPort: 587
+   mailPassword: Xebia@123
+   mailSmtpAuth: true
+   mailSmtpStartTlsEnable: true
